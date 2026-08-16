@@ -1,13 +1,13 @@
 {
-  "name": "Fat Loss Tracker",
+  "id": "./",
+  "name": "Personal Progress Tracker",
   "short_name": "Progress",
-  "description": "A private, device-local fat-loss progress tracker.",
+  "description": "A private, device-local progress tracker.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f4f1e8",
-  "theme_color": "#163a2b",
-  "icons": [
-    { "src": "./icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
-  ]
+  "orientation": "portrait-primary",
+  "background_color": "#f8f3ef",
+  "theme_color": "#f8f1ed",
+  "icons": [{"src":"./icons/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }

@@ -1,38 +1,48 @@
-# Fat Loss Tracker
+# Personal Progress Tracker
 
-A mobile-first Progressive Web App foundation for a personal fat-loss tracker. Version 1 is intentionally static: no backend, accounts, or database. Future tracking data will stay in browser storage on the device, with export/import backup added alongside the full application.
+A mobile-first, offline-capable fat-loss and progress tracking PWA designed for daily use from an iPhone Home Screen.
 
-This repository currently contains only the deployment-ready PWA shell. The tracker itself has not been built yet.
+## Privacy architecture
+
+The repository contains only generic application code. No personal targets, weights, measurements, notes, or tracking records are included. First-run setup and all subsequent records are stored in the browser's IndexedDB database on the device. There is no backend, account, analytics, telemetry, advertising, or data transmission.
+
+Because the app is static, device-local storage is the privacy boundary. Clearing Safari website data or losing the device can remove records, so regular JSON exports are strongly recommended.
+
+## Features
+
+- First-run plan setup with editable targets
+- Fast daily weight, calories, protein, steps, lifting, and notes log
+- Configurable weekly calorie budget with remaining-per-day math
+- Weekly-average weight trends and neutral pace summaries
+- Biweekly body check-ins with arm and waist comparisons
+- Versioned IndexedDB storage and validated JSON backup/restore
+- Deliberate full-data reset
+- Offline app shell and graceful service-worker updates
+- iPhone safe-area-aware bottom navigation
 
 ## Structure
 
-- `index.html` — minimal placeholder and iPhone/PWA metadata
-- `styles.css` — small mobile-first placeholder stylesheet
-- `app.js` — service-worker registration and connection status
-- `manifest.webmanifest` — install/standalone configuration
-- `service-worker.js` — offline application-shell caching
-- `offline.html` — navigation fallback when offline
-- `icons/` — application icon assets
-- `.github/workflows/deploy-pages.yml` — automatic GitHub Pages deployment
+- `index.html` — application entry and PWA metadata
+- `styles.css` — mobile-first visual system
+- `app.js` — UI, forms, navigation, charts, and update handling
+- `lib.js` — local-date and progress calculations
+- `db.js` — versioned IndexedDB storage, export, and restore
+- `service-worker.js` — updateable offline application shell
+- `manifest.webmanifest` — install and standalone configuration
+- `tests/` — calculation and date-boundary tests
+- `.github/workflows/deploy-pages.yml` — GitHub Pages deployment
 
-## Run locally
-
-Service workers require HTTP rather than opening the HTML file directly. From the repository directory, run:
+## Run and test locally
 
 ```bash
 python3 -m http.server 8080
+node --test tests/calculations.test.js
 ```
 
-Then open `http://localhost:8080`. To test installation and offline behavior most accurately, use the deployed HTTPS URL.
+Open `http://localhost:8080`. Service workers and installation are best verified on the deployed HTTPS URL.
 
-## GitHub Pages deployment
+## Deployments and data safety
 
-Every push to `main` starts the `Deploy to GitHub Pages` workflow. It uploads this static repository and publishes it with GitHub Pages. There is no build step and no generated output to commit.
+Every push to `main` deploys the static files with GitHub Pages. Application code is cached separately from IndexedDB personal data, so routine deployments and service-worker cache upgrades do not erase tracking history. Storage schema changes must increment the IndexedDB version and implement migrations in `db.js`; existing store names and keys should not be casually renamed.
 
-In repository **Settings → Pages**, the source must be set to **GitHub Actions**. The first successful workflow run creates the public Pages URL. Later commits to `main` update it automatically.
-
-## PWA notes
-
-The manifest requests standalone display mode and uses relative URLs so the app works under a GitHub Pages project path. The service worker caches the small application shell after the first successful visit. On iPhone, open the deployed URL in Safari, choose **Share**, then **Add to Home Screen**.
-
-When application work begins, update the service-worker cache name whenever cached shell files change. Device-local tracker records should be kept separate from the cache (for example, in IndexedDB) so deployments never overwrite personal data.
+On iPhone, open the production URL in Safari, choose **Share**, then **Add to Home Screen**.
