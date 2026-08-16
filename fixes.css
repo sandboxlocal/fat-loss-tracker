@@ -1,0 +1,6 @@
+.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.two>*,form,section,header>div,label{min-width:0}
+input,textarea,select{display:block;max-width:100%;min-width:0}
+input[type="date"]{-webkit-appearance:none;appearance:none;line-height:1.2}
+.next>div{display:grid;gap:3px}
+.next strong{font-size:17px}
