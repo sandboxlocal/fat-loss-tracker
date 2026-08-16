@@ -21,3 +21,8 @@ function checkin(){
 }
 
 function settings(d){const optional=(name)=>Object.prototype.hasOwnProperty.call(d,name)?(d[name]===""?null:U.num(d[name])):state.settings?.[name]??null;return{...d,key:"plan",dailyCalories:+d.dailyCalories,weeklyCalories:+d.weeklyCalories,proteinTarget:+d.proteinTarget,stepTarget:+d.stepTarget,liftMin:+d.liftMin,liftMax:+d.liftMax,lossMin:+d.lossMin,lossMax:+d.lossMax,baselineRightArm:optional("baselineRightArm"),baselineLeftArm:optional("baselineLeftArm"),baselineWaist:optional("baselineWaist"),weekStart:+(d.weekStart||0),unit:"lb"}}
+
+const pageHeadingCopy={plan:"A calm place to see your progress.",progress:"Watch your progress take shape."};
+function applyPageHeading(){const heading=app.querySelector(".page-head h1"),copy=pageHeadingCopy[state.view];if(heading&&copy&&heading.textContent!==copy)heading.textContent=copy}
+new MutationObserver(applyPageHeading).observe(app,{childList:true,subtree:true});
+applyPageHeading();

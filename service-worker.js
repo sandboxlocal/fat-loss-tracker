@@ -1,4 +1,4 @@
-const CACHE="personal-progress-shell-v5";
+const CACHE="personal-progress-shell-v6";
 const SHELL=["./","./index.html","./offline.html","./styles.css","./fixes.css","./dialog.css","./lib.js","./db.js","./app.js","./fixes.js","./manifest.webmanifest","./icons/icon.svg"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>Promise.all(SHELL.map(path=>fetch(new Request(path,{cache:"reload"})).then(response=>{if(!response.ok)throw new Error(`Failed to cache ${path}`);return cache.put(path,response)}))))));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
