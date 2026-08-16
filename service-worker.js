@@ -1,5 +1,5 @@
-const CACHE="personal-progress-shell-v2";
-const SHELL=["./","./index.html","./offline.html","./styles.css","./lib.js","./db.js","./app.js","./manifest.webmanifest","./icons/icon.svg"];
+const CACHE="personal-progress-shell-v3";
+const SHELL=["./","./index.html","./offline.html","./styles.css","./dialog.css","./lib.js","./db.js","./app.js","./manifest.webmanifest","./icons/icon.svg"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL))));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener("message",event=>{if(event.data?.type==="SKIP_WAITING")self.skipWaiting()});
